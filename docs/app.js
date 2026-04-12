@@ -152,9 +152,10 @@ async function submitSignIn() {
     return;
   }
   status.textContent = 'Sending…';
+  const redirectTo = window.location.origin + window.location.pathname;
   const { error } = await sb.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: window.location.href },
+    options: { emailRedirectTo: redirectTo },
   });
   status.textContent = error
     ? `Error: ${error.message}`
