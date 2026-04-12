@@ -1,0 +1,219 @@
+/* ── Design tokens ── */
+:root {
+  --bg:        #0f172a;
+  --surface:   #1e293b;
+  --border:    #334155;
+  --text:      #f1f5f9;
+  --muted:     #94a3b8;
+  --accent:    #60a5fa;
+  --accent-h:  #93c5fd;
+  --green:     #4ade80;
+  --yellow:    #fbbf24;
+  --red:       #f87171;
+  --radius:    10px;
+  --shadow:    0 4px 12px rgba(0,0,0,.4);
+  --trans:     .15s ease;
+}
+[data-theme="light"] {
+  --bg:       #f1f5f9;
+  --surface:  #ffffff;
+  --border:   #e2e8f0;
+  --text:     #1e293b;
+  --muted:    #64748b;
+  --accent:   #3b82f6;
+  --accent-h: #2563eb;
+  --shadow:   0 4px 12px rgba(0,0,0,.08);
+}
+
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+  min-height:100vh;
+  transition:background var(--trans),color var(--trans);
+}
+
+/* ── Header ── */
+header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+.header-inner{
+  max-width:1280px;margin:0 auto;
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+header h1{font-size:1.25rem;font-weight:700;letter-spacing:-.02em}
+.header-right{display:flex;align-items:center;gap:12px}
+.muted{font-size:.78rem;color:var(--muted)}
+.icon-btn{
+  background:transparent;border:1px solid var(--border);
+  border-radius:50%;width:34px;height:34px;
+  font-size:.95rem;cursor:pointer;color:var(--text);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color var(--trans);
+}
+.icon-btn:hover{border-color:var(--accent)}
+
+/* ── Main ── */
+main{max-width:1280px;margin:0 auto;padding:20px}
+
+/* ── Toolbar ── */
+.toolbar{
+  display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;
+}
+.toolbar input{
+  flex:1;min-width:180px;
+  padding:9px 14px;
+  border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--surface);color:var(--text);
+  font-size:.875rem;outline:none;
+  transition:border-color var(--trans);
+}
+.toolbar input:focus{border-color:var(--accent)}
+.toolbar input::placeholder{color:var(--muted)}
+.toolbar select{
+  padding:9px 12px;
+  border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--surface);color:var(--text);
+  font-size:.875rem;outline:none;cursor:pointer;
+}
+
+/* ── Chip filters ── */
+.chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.chip{
+  padding:5px 13px;
+  border:1px solid var(--border);border-radius:20px;
+  background:var(--surface);color:var(--muted);
+  font-size:.78rem;cursor:pointer;
+  transition:all var(--trans);white-space:nowrap;text-transform:capitalize;
+}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── Status bar ── */
+.status-bar{margin-bottom:18px}
+
+/* ── Grid ── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:18px;
+}
+
+/* ── Card ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px;
+  display:flex;flex-direction:column;gap:10px;
+  box-shadow:var(--shadow);
+  transition:box-shadow var(--trans),transform var(--trans),border-color var(--trans);
+}
+.card:hover{
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+  transform:translateY(-2px);
+  border-color:var(--border);
+}
+
+/* card header row */
+.card-meta{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.source-tag{
+  font-size:.68rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.05em;color:var(--muted);
+  background:var(--bg);padding:2px 7px;border-radius:4px;
+  white-space:nowrap;
+}
+.score-tag{
+  font-size:.7rem;font-weight:700;
+  padding:2px 7px;border-radius:4px;white-space:nowrap;
+}
+.score-high{background:#14532d;color:#86efac}
+.score-mid {background:#451a03;color:#fcd34d}
+.score-low {background:#450a0a;color:#fca5a5}
+[data-theme="light"] .score-high{background:#dcfce7;color:#166534}
+[data-theme="light"] .score-mid {background:#fef9c3;color:#854d0e}
+[data-theme="light"] .score-low {background:#fee2e2;color:#991b1b}
+
+/* title */
+.card-title{
+  font-size:.95rem;font-weight:600;line-height:1.4;color:var(--text);
+}
+.card-title a{color:inherit;text-decoration:none}
+.card-title a:hover{color:var(--accent)}
+
+/* summary */
+.card-summary{
+  font-size:.83rem;color:var(--muted);line-height:1.55;flex:1;
+}
+
+/* footer */
+.card-footer{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+.topic-tags{display:flex;flex-wrap:wrap;gap:5px}
+.topic-tag{
+  font-size:.68rem;padding:2px 7px;
+  background:rgba(96,165,250,.12);color:var(--accent);
+  border-radius:20px;cursor:pointer;transition:all var(--trans);
+  text-transform:lowercase;
+}
+.topic-tag:hover{background:var(--accent);color:#fff}
+.card-date{font-size:.7rem;color:var(--muted)}
+
+/* ── Skeleton ── */
+.skeleton{
+  height:220px;position:relative;overflow:hidden;
+}
+.skeleton::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(148,163,184,.1) 50%,transparent 100%);
+  animation:shimmer 1.4s infinite;transform:translateX(-100%);
+}
+@keyframes shimmer{to{transform:translateX(100%)}}
+
+/* ── Empty state ── */
+.empty-state{
+  grid-column:1/-1;text-align:center;
+  padding:60px 20px;color:var(--muted);
+}
+.empty-state h3{font-size:1.05rem;margin-bottom:6px;color:var(--text)}
+
+/* ── Load more ── */
+.btn-primary{
+  padding:11px 26px;
+  background:var(--accent);color:#fff;
+  border:none;border-radius:var(--radius);
+  font-size:.875rem;font-weight:500;cursor:pointer;
+  transition:background var(--trans);
+}
+.btn-primary:hover{background:var(--accent-h)}
+
+/* ── Error toast ── */
+.toast{
+  position:fixed;bottom:20px;right:20px;
+  background:#dc2626;color:#fff;
+  padding:10px 16px;border-radius:var(--radius);
+  font-size:.83rem;box-shadow:var(--shadow);z-index:999;
+  animation:slideUp .2s ease;
+}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .header-inner{padding:12px 16px}
+  header h1{font-size:1rem}
+  main{padding:14px}
+  .grid{grid-template-columns:1fr}
+  .toolbar{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){
+  .skeleton::after{animation:none}
+  .card{transition:none}
+}
