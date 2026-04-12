@@ -1,0 +1,756 @@
+Linux n8n-server 6.1.0-43-cloud-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.162-1 (2026-02-08) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+oleks1297@n8n-server:~$ sudo apt update && sudo apt install -y docker.io docker-compose-plugin git
+Get:1 file:/etc/apt/mirrors/debian.list Mirrorlist [30 B]
+Get:5 file:/etc/apt/mirrors/debian-security.list Mirrorlist [39 B]                     
+Hit:7 https://packages.cloud.google.com/apt google-compute-engine-bookworm-stable InRelease
+Hit:2 https://deb.debian.org/debian bookworm InRelease      
+Hit:3 https://deb.debian.org/debian bookworm-updates InRelease
+Hit:8 https://packages.cloud.google.com/apt cloud-sdk-bookworm InRelease
+Hit:4 https://deb.debian.org/debian bookworm-backports InRelease
+Hit:6 https://deb.debian.org/debian-security bookworm-security InRelease
+Hit:9 https://packages.cloud.google.com/apt google-cloud-ops-agent-bookworm-2 InRelease
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+12 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+E: Unable to locate package docker-compose-plugin
+oleks1297@n8n-server:~$ sudo apt update && sudo apt install -y docker.io docker-compose git
+Get:1 file:/etc/apt/mirrors/debian.list Mirrorlist [30 B]
+Get:5 file:/etc/apt/mirrors/debian-security.list Mirrorlist [39 B]                     
+Hit:7 https://packages.cloud.google.com/apt google-compute-engine-bookworm-stable InRelease
+Hit:2 https://deb.debian.org/debian bookworm InRelease      
+Hit:8 https://packages.cloud.google.com/apt cloud-sdk-bookworm InRelease
+Hit:3 https://deb.debian.org/debian bookworm-updates InRelease
+Hit:4 https://deb.debian.org/debian bookworm-backports InRelease
+Hit:9 https://packages.cloud.google.com/apt google-cloud-ops-agent-bookworm-2 InRelease
+Hit:6 https://deb.debian.org/debian-security bookworm-security InRelease
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+12 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  binutils binutils-common binutils-x86-64-linux-gnu cgroupfs-mount containerd criu git-man libbinutils libctf-nobfd0 libctf0 liberror-perl libgdbm-compat4 libgprofng0 libintl-perl
+  libintl-xs-perl libjansson4 libmodule-find-perl libnet1 libnftables1 libnl-3-200 libperl5.36 libproc-processtable-perl libprotobuf32 libsort-naturally-perl libterm-readkey-perl
+  needrestart patch perl perl-modules-5.36 python3-attr python3-distutils python3-docker python3-dockerpty python3-docopt python3-dotenv python3-json-pointer python3-jsonschema
+  python3-lib2to3 python3-protobuf python3-pyrsistent python3-rfc3987 python3-texttable python3-uritemplate python3-webcolors python3-websocket runc tini
+Suggested packages:
+  binutils-doc containernetworking-plugins docker-doc aufs-tools btrfs-progs debootstrap rinse rootlesskit xfsprogs zfs-fuse | zfsutils-linux git-daemon-run | git-daemon-sysvinit
+  git-doc git-email git-gui gitk gitweb git-cvs git-mediawiki git-svn needrestart-session | libnotify-bin iucode-tool ed diffutils-doc perl-doc libterm-readline-gnu-perl
+  | libterm-readline-perl-perl make libtap-harness-archive-perl python-attr-doc python-jsonschema-doc
+The following NEW packages will be installed:
+  binutils binutils-common binutils-x86-64-linux-gnu cgroupfs-mount containerd criu docker-compose docker.io git git-man libbinutils libctf-nobfd0 libctf0 liberror-perl
+  libgdbm-compat4 libgprofng0 libintl-perl libintl-xs-perl libjansson4 libmodule-find-perl libnet1 libnftables1 libnl-3-200 libperl5.36 libproc-processtable-perl libprotobuf32
+  libsort-naturally-perl libterm-readkey-perl needrestart patch perl perl-modules-5.36 python3-attr python3-distutils python3-docker python3-dockerpty python3-docopt python3-dotenv
+  python3-json-pointer python3-jsonschema python3-lib2to3 python3-protobuf python3-pyrsistent python3-rfc3987 python3-texttable python3-uritemplate python3-webcolors
+  python3-websocket runc tini
+0 upgraded, 50 newly installed, 0 to remove and 12 not upgraded.
+Need to get 92.3 MB of archives.
+After this operation, 410 MB of additional disk space will be used.
+Get:1 file:/etc/apt/mirrors/debian.list Mirrorlist [30 B]
+Get:2 https://deb.debian.org/debian bookworm/main amd64 perl-modules-5.36 all 5.36.0-7+deb12u3 [2815 kB]
+Get:3 https://deb.debian.org/debian bookworm/main amd64 libgdbm-compat4 amd64 1.23-3 [48.2 kB]
+Get:4 https://deb.debian.org/debian bookworm/main amd64 libperl5.36 amd64 5.36.0-7+deb12u3 [4196 kB]
+Get:5 https://deb.debian.org/debian bookworm/main amd64 perl amd64 5.36.0-7+deb12u3 [239 kB]
+Get:6 https://deb.debian.org/debian bookworm/main amd64 runc amd64 1.1.5+ds1-1+deb12u1 [2710 kB]
+Get:7 https://deb.debian.org/debian bookworm/main amd64 containerd amd64 1.6.20~ds1-1+deb12u2 [25.9 MB]
+Get:8 https://deb.debian.org/debian bookworm/main amd64 tini amd64 0.19.0-1+b3 [267 kB]
+Get:9 https://deb.debian.org/debian bookworm/main amd64 docker.io amd64 20.10.24+dfsg1-1+deb12u1+b3 [36.2 MB]
+Get:10 https://deb.debian.org/debian bookworm/main amd64 binutils-common amd64 2.40-2 [2487 kB]
+Get:11 https://deb.debian.org/debian bookworm/main amd64 libbinutils amd64 2.40-2 [572 kB]
+Get:12 https://deb.debian.org/debian bookworm/main amd64 libctf-nobfd0 amd64 2.40-2 [153 kB]
+Get:13 https://deb.debian.org/debian bookworm/main amd64 libctf0 amd64 2.40-2 [89.8 kB]
+Get:14 https://deb.debian.org/debian bookworm/main amd64 libgprofng0 amd64 2.40-2 [812 kB]
+Get:15 https://deb.debian.org/debian bookworm/main amd64 libjansson4 amd64 2.14-2 [40.8 kB]
+Get:16 https://deb.debian.org/debian bookworm/main amd64 binutils-x86-64-linux-gnu amd64 2.40-2 [2246 kB]
+Get:17 https://deb.debian.org/debian bookworm/main amd64 binutils amd64 2.40-2 [65.0 kB]
+Get:18 https://deb.debian.org/debian bookworm/main amd64 cgroupfs-mount all 1.4 [6276 B]
+Get:19 https://deb.debian.org/debian bookworm/main amd64 libprotobuf32 amd64 3.21.12-3 [932 kB]
+Get:20 https://deb.debian.org/debian bookworm/main amd64 python3-protobuf amd64 3.21.12-3 [245 kB]
+Get:21 https://deb.debian.org/debian bookworm/main amd64 libnet1 amd64 1.1.6+dfsg-3.2 [60.3 kB]
+Get:22 https://deb.debian.org/debian bookworm/main amd64 libnftables1 amd64 1.0.6-2+deb12u2 [299 kB]
+Get:23 https://deb.debian.org/debian bookworm/main amd64 libnl-3-200 amd64 3.7.0-0.2+b1 [63.1 kB]
+Get:24 https://deb.debian.org/debian bookworm/main amd64 criu amd64 3.17.1-2+deb12u2 [666 kB]
+Get:25 https://deb.debian.org/debian bookworm/main amd64 python3-lib2to3 all 3.11.2-3 [76.3 kB]
+Get:26 https://deb.debian.org/debian bookworm/main amd64 python3-distutils all 3.11.2-3 [131 kB]
+Get:27 https://deb.debian.org/debian bookworm/main amd64 python3-websocket all 1.2.3-1 [40.4 kB]
+Get:28 https://deb.debian.org/debian bookworm/main amd64 python3-docker all 5.0.3-1 [90.2 kB]
+Get:29 https://deb.debian.org/debian bookworm/main amd64 python3-dockerpty all 0.4.1-4 [11.4 kB]
+Get:30 https://deb.debian.org/debian bookworm/main amd64 python3-docopt all 0.6.2-4.1 [26.2 kB]
+Get:31 https://deb.debian.org/debian bookworm/main amd64 python3-dotenv all 0.21.0-1 [24.9 kB]
+Get:32 https://deb.debian.org/debian bookworm/main amd64 python3-attr all 22.2.0-1 [65.4 kB]
+Get:33 https://deb.debian.org/debian bookworm/main amd64 python3-pyrsistent amd64 0.18.1-1+b3 [60.0 kB]
+Get:34 https://deb.debian.org/debian bookworm/main amd64 python3-jsonschema all 4.10.3-1 [67.9 kB]
+Get:35 https://deb.debian.org/debian bookworm/main amd64 python3-texttable all 1.6.7-1 [11.9 kB]
+Get:36 https://deb.debian.org/debian bookworm/main amd64 docker-compose all 1.29.2-3 [123 kB]
+Get:37 https://deb.debian.org/debian bookworm/main amd64 liberror-perl all 0.17029-2 [29.0 kB]
+Get:38 https://deb.debian.org/debian bookworm/main amd64 git-man all 1:2.39.5-0+deb12u3 [2053 kB]
+Get:39 https://deb.debian.org/debian bookworm/main amd64 git amd64 1:2.39.5-0+deb12u3 [7264 kB]
+Get:40 https://deb.debian.org/debian bookworm/main amd64 libintl-perl all 1.33-1 [720 kB]
+Get:41 https://deb.debian.org/debian bookworm/main amd64 libintl-xs-perl amd64 1.33-1 [15.6 kB]
+Get:42 https://deb.debian.org/debian bookworm/main amd64 libmodule-find-perl all 0.16-2 [10.6 kB]
+Get:43 https://deb.debian.org/debian bookworm/main amd64 libproc-processtable-perl amd64 0.634-1+b2 [43.1 kB]
+Get:44 https://deb.debian.org/debian bookworm/main amd64 libsort-naturally-perl all 1.03-4 [13.1 kB]
+Get:45 https://deb.debian.org/debian bookworm/main amd64 libterm-readkey-perl amd64 2.38-2+b1 [24.5 kB]
+Get:46 https://deb.debian.org/debian bookworm/main amd64 needrestart all 3.6-4+deb12u3 [60.5 kB]
+Get:47 https://deb.debian.org/debian bookworm/main amd64 patch amd64 2.7.6-7 [128 kB]
+Get:48 https://deb.debian.org/debian bookworm/main amd64 python3-json-pointer all 2.3-2 [15.1 kB]
+Get:49 https://deb.debian.org/debian bookworm/main amd64 python3-rfc3987 all 1.3.8-2 [8816 B]
+Get:50 https://deb.debian.org/debian bookworm/main amd64 python3-uritemplate all 4.1.1-2 [10.9 kB]
+Get:51 https://deb.debian.org/debian bookworm/main amd64 python3-webcolors all 1.11.1-1 [12.7 kB]
+Fetched 92.3 MB in 2s (52.5 MB/s)               
+Extracting templates from packages: 100%
+Selecting previously unselected package perl-modules-5.36.
+(Reading database ... 76246 files and directories currently installed.)
+Preparing to unpack .../00-perl-modules-5.36_5.36.0-7+deb12u3_all.deb ...
+Unpacking perl-modules-5.36 (5.36.0-7+deb12u3) ...
+Selecting previously unselected package libgdbm-compat4:amd64.
+Preparing to unpack .../01-libgdbm-compat4_1.23-3_amd64.deb ...
+Unpacking libgdbm-compat4:amd64 (1.23-3) ...
+Selecting previously unselected package libperl5.36:amd64.
+Preparing to unpack .../02-libperl5.36_5.36.0-7+deb12u3_amd64.deb ...
+Unpacking libperl5.36:amd64 (5.36.0-7+deb12u3) ...
+Selecting previously unselected package perl.
+Preparing to unpack .../03-perl_5.36.0-7+deb12u3_amd64.deb ...
+Unpacking perl (5.36.0-7+deb12u3) ...
+Selecting previously unselected package runc.
+Preparing to unpack .../04-runc_1.1.5+ds1-1+deb12u1_amd64.deb ...
+Unpacking runc (1.1.5+ds1-1+deb12u1) ...
+Selecting previously unselected package containerd.
+Preparing to unpack .../05-containerd_1.6.20~ds1-1+deb12u2_amd64.deb ...
+Unpacking containerd (1.6.20~ds1-1+deb12u2) ...
+Selecting previously unselected package tini.
+Preparing to unpack .../06-tini_0.19.0-1+b3_amd64.deb ...
+Unpacking tini (0.19.0-1+b3) ...
+Selecting previously unselected package docker.io.
+Preparing to unpack .../07-docker.io_20.10.24+dfsg1-1+deb12u1+b3_amd64.deb ...
+Unpacking docker.io (20.10.24+dfsg1-1+deb12u1+b3) ...
+Selecting previously unselected package binutils-common:amd64.
+Preparing to unpack .../08-binutils-common_2.40-2_amd64.deb ...
+Unpacking binutils-common:amd64 (2.40-2) ...
+Selecting previously unselected package libbinutils:amd64.
+Preparing to unpack .../09-libbinutils_2.40-2_amd64.deb ...
+Unpacking libbinutils:amd64 (2.40-2) ...
+Selecting previously unselected package libctf-nobfd0:amd64.
+Preparing to unpack .../10-libctf-nobfd0_2.40-2_amd64.deb ...
+Unpacking libctf-nobfd0:amd64 (2.40-2) ...
+Selecting previously unselected package libctf0:amd64.
+Preparing to unpack .../11-libctf0_2.40-2_amd64.deb ...
+Unpacking libctf0:amd64 (2.40-2) ...
+Selecting previously unselected package libgprofng0:amd64.
+Preparing to unpack .../12-libgprofng0_2.40-2_amd64.deb ...
+Unpacking libgprofng0:amd64 (2.40-2) ...
+Selecting previously unselected package libjansson4:amd64.
+Preparing to unpack .../13-libjansson4_2.14-2_amd64.deb ...
+Unpacking libjansson4:amd64 (2.14-2) ...
+Selecting previously unselected package binutils-x86-64-linux-gnu.
+Preparing to unpack .../14-binutils-x86-64-linux-gnu_2.40-2_amd64.deb ...
+Unpacking binutils-x86-64-linux-gnu (2.40-2) ...
+Selecting previously unselected package binutils.
+Preparing to unpack .../15-binutils_2.40-2_amd64.deb ...
+Unpacking binutils (2.40-2) ...
+Selecting previously unselected package cgroupfs-mount.
+Preparing to unpack .../16-cgroupfs-mount_1.4_all.deb ...
+Unpacking cgroupfs-mount (1.4) ...
+Selecting previously unselected package libprotobuf32:amd64.
+Preparing to unpack .../17-libprotobuf32_3.21.12-3_amd64.deb ...
+Unpacking libprotobuf32:amd64 (3.21.12-3) ...
+Selecting previously unselected package python3-protobuf.
+Preparing to unpack .../18-python3-protobuf_3.21.12-3_amd64.deb ...
+Unpacking python3-protobuf (3.21.12-3) ...
+Selecting previously unselected package libnet1:amd64.
+Preparing to unpack .../19-libnet1_1.1.6+dfsg-3.2_amd64.deb ...
+Unpacking libnet1:amd64 (1.1.6+dfsg-3.2) ...
+Selecting previously unselected package libnftables1:amd64.
+Preparing to unpack .../20-libnftables1_1.0.6-2+deb12u2_amd64.deb ...
+Unpacking libnftables1:amd64 (1.0.6-2+deb12u2) ...
+Selecting previously unselected package libnl-3-200:amd64.
+Preparing to unpack .../21-libnl-3-200_3.7.0-0.2+b1_amd64.deb ...
+Unpacking libnl-3-200:amd64 (3.7.0-0.2+b1) ...
+Selecting previously unselected package criu.
+Preparing to unpack .../22-criu_3.17.1-2+deb12u2_amd64.deb ...
+Unpacking criu (3.17.1-2+deb12u2) ...
+Selecting previously unselected package python3-lib2to3.
+Preparing to unpack .../23-python3-lib2to3_3.11.2-3_all.deb ...
+Unpacking python3-lib2to3 (3.11.2-3) ...
+Selecting previously unselected package python3-distutils.
+Preparing to unpack .../24-python3-distutils_3.11.2-3_all.deb ...
+Unpacking python3-distutils (3.11.2-3) ...
+Selecting previously unselected package python3-websocket.
+Preparing to unpack .../25-python3-websocket_1.2.3-1_all.deb ...
+Unpacking python3-websocket (1.2.3-1) ...
+Selecting previously unselected package python3-docker.
+Preparing to unpack .../26-python3-docker_5.0.3-1_all.deb ...
+Unpacking python3-docker (5.0.3-1) ...
+Selecting previously unselected package python3-dockerpty.
+Preparing to unpack .../27-python3-dockerpty_0.4.1-4_all.deb ...
+Unpacking python3-dockerpty (0.4.1-4) ...
+Selecting previously unselected package python3-docopt.
+Preparing to unpack .../28-python3-docopt_0.6.2-4.1_all.deb ...
+Unpacking python3-docopt (0.6.2-4.1) ...
+Selecting previously unselected package python3-dotenv.
+Preparing to unpack .../29-python3-dotenv_0.21.0-1_all.deb ...
+Unpacking python3-dotenv (0.21.0-1) ...
+Selecting previously unselected package python3-attr.
+Preparing to unpack .../30-python3-attr_22.2.0-1_all.deb ...
+Unpacking python3-attr (22.2.0-1) ...
+Selecting previously unselected package python3-pyrsistent:amd64.
+Preparing to unpack .../31-python3-pyrsistent_0.18.1-1+b3_amd64.deb ...
+Unpacking python3-pyrsistent:amd64 (0.18.1-1+b3) ...
+Selecting previously unselected package python3-jsonschema.
+Preparing to unpack .../32-python3-jsonschema_4.10.3-1_all.deb ...
+Unpacking python3-jsonschema (4.10.3-1) ...
+Selecting previously unselected package python3-texttable.
+Preparing to unpack .../33-python3-texttable_1.6.7-1_all.deb ...
+Unpacking python3-texttable (1.6.7-1) ...
+Selecting previously unselected package docker-compose.
+Preparing to unpack .../34-docker-compose_1.29.2-3_all.deb ...
+Unpacking docker-compose (1.29.2-3) ...
+Selecting previously unselected package liberror-perl.
+Preparing to unpack .../35-liberror-perl_0.17029-2_all.deb ...
+Unpacking liberror-perl (0.17029-2) ...
+Selecting previously unselected package git-man.
+Preparing to unpack .../36-git-man_1%3a2.39.5-0+deb12u3_all.deb ...
+Unpacking git-man (1:2.39.5-0+deb12u3) ...
+Selecting previously unselected package git.
+Preparing to unpack .../37-git_1%3a2.39.5-0+deb12u3_amd64.deb ...
+Unpacking git (1:2.39.5-0+deb12u3) ...
+Selecting previously unselected package libintl-perl.
+Preparing to unpack .../38-libintl-perl_1.33-1_all.deb ...
+Unpacking libintl-perl (1.33-1) ...
+Selecting previously unselected package libintl-xs-perl.
+Preparing to unpack .../39-libintl-xs-perl_1.33-1_amd64.deb ...
+Unpacking libintl-xs-perl (1.33-1) ...
+Selecting previously unselected package libmodule-find-perl.
+Preparing to unpack .../40-libmodule-find-perl_0.16-2_all.deb ...
+Unpacking libmodule-find-perl (0.16-2) ...
+Selecting previously unselected package libproc-processtable-perl:amd64.
+Preparing to unpack .../41-libproc-processtable-perl_0.634-1+b2_amd64.deb ...
+Unpacking libproc-processtable-perl:amd64 (0.634-1+b2) ...
+Selecting previously unselected package libsort-naturally-perl.
+Preparing to unpack .../42-libsort-naturally-perl_1.03-4_all.deb ...
+Unpacking libsort-naturally-perl (1.03-4) ...
+Selecting previously unselected package libterm-readkey-perl.
+Preparing to unpack .../43-libterm-readkey-perl_2.38-2+b1_amd64.deb ...
+Unpacking libterm-readkey-perl (2.38-2+b1) ...
+Selecting previously unselected package needrestart.
+Preparing to unpack .../44-needrestart_3.6-4+deb12u3_all.deb ...
+Unpacking needrestart (3.6-4+deb12u3) ...
+Selecting previously unselected package patch.
+Preparing to unpack .../45-patch_2.7.6-7_amd64.deb ...
+Unpacking patch (2.7.6-7) ...
+Selecting previously unselected package python3-json-pointer.
+Preparing to unpack .../46-python3-json-pointer_2.3-2_all.deb ...
+Unpacking python3-json-pointer (2.3-2) ...
+Selecting previously unselected package python3-rfc3987.
+Preparing to unpack .../47-python3-rfc3987_1.3.8-2_all.deb ...
+Unpacking python3-rfc3987 (1.3.8-2) ...
+Selecting previously unselected package python3-uritemplate.
+Preparing to unpack .../48-python3-uritemplate_4.1.1-2_all.deb ...
+Unpacking python3-uritemplate (4.1.1-2) ...
+Selecting previously unselected package python3-webcolors.
+Preparing to unpack .../49-python3-webcolors_1.11.1-1_all.deb ...
+Unpacking python3-webcolors (1.11.1-1) ...
+Setting up python3-dotenv (0.21.0-1) ...
+Setting up python3-attr (22.2.0-1) ...
+Setting up python3-texttable (1.6.7-1) ...
+Setting up python3-docopt (0.6.2-4.1) ...
+Setting up binutils-common:amd64 (2.40-2) ...
+Setting up libctf-nobfd0:amd64 (2.40-2) ...
+Setting up libnet1:amd64 (1.1.6+dfsg-3.2) ...
+Setting up runc (1.1.5+ds1-1+deb12u1) ...
+Setting up libjansson4:amd64 (2.14-2) ...
+Setting up python3-uritemplate (4.1.1-2) ...
+Setting up perl-modules-5.36 (5.36.0-7+deb12u3) ...
+Setting up python3-webcolors (1.11.1-1) ...
+Setting up python3-rfc3987 (1.3.8-2) ...
+Setting up tini (0.19.0-1+b3) ...
+Setting up patch (2.7.6-7) ...
+Setting up libgdbm-compat4:amd64 (1.23-3) ...
+Setting up python3-pyrsistent:amd64 (0.18.1-1+b3) ...
+Setting up libprotobuf32:amd64 (3.21.12-3) ...
+Setting up python3-json-pointer (2.3-2) ...
+Setting up libnl-3-200:amd64 (3.7.0-0.2+b1) ...
+Setting up git-man (1:2.39.5-0+deb12u3) ...
+Setting up cgroupfs-mount (1.4) ...
+Setting up libbinutils:amd64 (2.40-2) ...
+Setting up python3-protobuf (3.21.12-3) ...
+Setting up containerd (1.6.20~ds1-1+deb12u2) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/containerd.service → /lib/systemd/system/containerd.service.
+Setting up python3-lib2to3 (3.11.2-3) ...
+Setting up python3-websocket (1.2.3-1) ...
+Setting up libperl5.36:amd64 (5.36.0-7+deb12u3) ...
+Setting up python3-dockerpty (0.4.1-4) ...
+Setting up libctf0:amd64 (2.40-2) ...
+Setting up python3-distutils (3.11.2-3) ...
+Setting up libnftables1:amd64 (1.0.6-2+deb12u2) ...
+Setting up python3-docker (5.0.3-1) ...
+Setting up docker.io (20.10.24+dfsg1-1+deb12u1+b3) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service.
+Created symlink /etc/systemd/system/sockets.target.wants/docker.socket → /lib/systemd/system/docker.socket.
+Setting up perl (5.36.0-7+deb12u3) ...
+Setting up libgprofng0:amd64 (2.40-2) ...
+Setting up python3-jsonschema (4.10.3-1) ...
+Setting up libmodule-find-perl (0.16-2) ...
+Setting up libproc-processtable-perl:amd64 (0.634-1+b2) ...
+Setting up criu (3.17.1-2+deb12u2) ...
+Setting up libintl-perl (1.33-1) ...
+Setting up libterm-readkey-perl (2.38-2+b1) ...
+Setting up libsort-naturally-perl (1.03-4) ...
+Setting up binutils-x86-64-linux-gnu (2.40-2) ...
+Setting up docker-compose (1.29.2-3) ...
+Setting up binutils (2.40-2) ...
+Setting up libintl-xs-perl (1.33-1) ...
+Setting up liberror-perl (0.17029-2) ...
+Setting up git (1:2.39.5-0+deb12u3) ...
+Setting up needrestart (3.6-4+deb12u3) ...
+Processing triggers for man-db (2.11.2-2) ...
+Processing triggers for libc-bin (2.36-9+deb12u13) ...
+oleks1297@n8n-server:~$ sudo usermod -aG docker $USER
+oleks1297@n8n-server:~$ newgrp docker
+oleks1297@n8n-server:~$ sudo fallocate -l 2G /swapfile
+oleks1297@n8n-server:~$ sudo chmod 600 /swapfile
+oleks1297@n8n-server:~$ sudo mkswap /swapfile
+Setting up swapspace version 1, size = 2 GiB (2147479552 bytes)
+no label, UUID=736b63e6-de5c-4994-aa4d-d4b430511de0
+oleks1297@n8n-server:~$ sudo swapon /swapfile
+oleks1297@n8n-server:~$ echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+/swapfile none swap sw 0 0
+oleks1297@n8n-server:~$ docker run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+4f55086f7dd0: Pull complete 
+Digest: sha256:452a468a4bf985040037cb6d5392410206e47db9bf5b7278d281f94d1c2d0931
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+oleks1297@n8n-server:~$ git clone https://github.com/Oleksii-Lasiichuk/news-aggregator.git
+Cloning into 'news-aggregator'...
+remote: Enumerating objects: 19, done.
+remote: Counting objects: 100% (19/19), done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 19 (delta 0), reused 13 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (19/19), 18.24 KiB | 848.00 KiB/s, done.
+oleks1297@n8n-server:~$ cd news-aggregator
+oleks1297@n8n-server:~/news-aggregator$ openssl rand -hex 32
+6613149ad5ec2458c2c3851f80eb283b21e3378fbce9be603abf5ee5728ede50
+oleks1297@n8n-server:~/news-aggregator$ cp .env.example .env
+oleks1297@n8n-server:~/news-aggregator$ nano .env
+oleks1297@n8n-server:~/news-aggregator$ docker compose up -d
+unknown shorthand flag: 'd' in -d
+See 'docker --help'.
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default "/home/oleks1297/.docker")
+  -c, --context string     Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker context use")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level ("debug"|"info"|"warn"|"error"|"fatal") (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default "/home/oleks1297/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default "/home/oleks1297/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default "/home/oleks1297/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  builder     Manage builds
+  completion  Generate the autocompletion script for the specified shell
+  config      Manage Docker configs
+  container   Manage containers
+  context     Manage contexts
+  image       Manage images
+  manifest    Manage Docker image manifests and manifest lists
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  stack       Manage Docker stacks
+  swarm       Manage Swarm
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+
+To get more help with docker, check out our guides at https://docs.docker.com/go/guides/
+
+oleks1297@n8n-server:~/news-aggregator$ docker-compose up -d
+Creating network "news-aggregator_default" with the default driver
+Pulling n8n (n8nio/n8n:latest)...
+latest: Pulling from n8nio/n8n
+22b37da5853a: Extracting [==================================================>]  1.882kB/1.882kB
+cb0e99e1c627: Download complete
+59ef0fb7d7f5: Download complete
+d1520cba0de0: Download complete
+ea2debf3e1ac: Download complete
+81d49b7a1dbb: Download complete
+b2b928fba1f9: Download complete
+4f4fb700ef54: Download complete
+3d9b688f2fde: Download complete
+5e4fde6196da: Download complete
+d11cda7746d3: Download complete
+ERROR: failed to register layer: Error processing tar file(exit status 1): archive/tar: invalid tar header
+oleks1297@n8n-server:~/news-aggregator$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            474M     0  474M   0% /dev
+tmpfs            97M  568K   97M   1% /run
+/dev/sda1        30G  5.2G   23G  19% /
+tmpfs           485M     0  485M   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+/dev/sda15      124M   12M  113M  10% /boot/efi
+tmpfs            97M     0   97M   0% /run/user/1000
+oleks1297@n8n-server:~/news-aggregator$ docker-compose pull n8n
+Pulling n8n ... download complete
+
+ERROR: for n8n  failed to register layer: Error processing tar file(exit status 1): archive/tar: invalid tar header
+ERROR: failed to register layer: Error processing tar file(exit status 1): archive/tar: invalid tar header
+oleks1297@n8n-server:~/news-aggregator$ docker system prune -a --volumes -f
+Deleted Containers:
+28127b2f35969d31b3d1796e0d4377c484722a4c784dbf85d561c6e55c1682ba
+
+Deleted Networks:
+news-aggregator_default
+
+Deleted Images:
+untagged: hello-world:latest
+untagged: hello-world@sha256:452a468a4bf985040037cb6d5392410206e47db9bf5b7278d281f94d1c2d0931
+deleted: sha256:e2ac70e7319a02c5a477f5825259bd118b94e8b02c279c67afa63adab6d8685b
+deleted: sha256:897b3f2a7c1bc2f3d02432f7892fe31c6272c521ad4d70257df624504a3238b4
+
+Total reclaimed space: 10.07kB
+oleks1297@n8n-server:~/news-aggregator$ sudo systemctl restart docker
+oleks1297@n8n-server:~/news-aggregator$ docker-compose pull n8n
+docker-compose up -d
+Pulling n8n ... download complete
+
+ERROR: for n8n  failed to register layer: Error processing tar file(exit status 1): archive/tar: invalid tar header
+ERROR: failed to register layer: Error processing tar file(exit status 1): archive/tar: invalid tar header
+Creating network "news-aggregator_default" with the default driver
+Pulling n8n (n8nio/n8n:latest)...
+latest: Pulling from n8nio/n8n
+22b37da5853a: Extracting [==================================================>]  1.882kB/1.882kB
+cb0e99e1c627: Download complete
+59ef0fb7d7f5: Download complete
+d1520cba0de0: Download complete
+ea2debf3e1ac: Download complete
+81d49b7a1dbb: Download complete
+b2b928fba1f9: Download complete
+4f4fb700ef54: Download complete
+3d9b688f2fde: Download complete
+5e4fde6196da: Download complete
+d11cda7746d3: Download complete
+ERROR: failed to register layer: Error processing tar file(exit status 1): archive/tar: invalid tar header
+oleks1297@n8n-server:~/news-aggregator$ sudo apt-get remove docker docker-engine docker.io containerd runc -y
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+E: Unable to locate package docker-engine
+oleks1297@n8n-server:~/news-aggregator$ sudo apt-get update
+Get:1 file:/etc/apt/mirrors/debian.list Mirrorlist [30 B]
+Get:5 file:/etc/apt/mirrors/debian-security.list Mirrorlist [39 B]                      
+Hit:7 https://packages.cloud.google.com/apt google-compute-engine-bookworm-stable InRelease
+Hit:2 https://deb.debian.org/debian bookworm InRelease       
+Hit:3 https://deb.debian.org/debian bookworm-updates InRelease
+Hit:4 https://deb.debian.org/debian bookworm-backports InRelease
+Hit:8 https://packages.cloud.google.com/apt cloud-sdk-bookworm InRelease
+Hit:6 https://deb.debian.org/debian-security bookworm-security InRelease
+Hit:9 https://packages.cloud.google.com/apt google-cloud-ops-agent-bookworm-2 InRelease
+Reading package lists... Done
+oleks1297@n8n-server:~/news-aggregator$ sudo apt-get install -y ca-certificates curl gnupg
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+ca-certificates is already the newest version (20230311+deb12u1).
+curl is already the newest version (7.88.1-10+deb12u14).
+gnupg is already the newest version (2.2.40-1.1+deb12u2).
+gnupg set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 12 not upgraded.
+oleks1297@n8n-server:~/news-aggregator$ sudo install -m 0755 -d /etc/apt/keyrings
+oleks1297@n8n-server:~/news-aggregator$ curl -fsSL https://docker.com | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+gpg: no valid OpenPGP data found.
+oleks1297@n8n-server:~/news-aggregator$ sudo chmod a+r /etc/apt/keyrings/docker.gpg
+oleks1297@n8n-server:~/news-aggregator$ echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://docker.com \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+oleks1297@n8n-server:~/news-aggregator$ sudo apt-get update
+Get:1 file:/etc/apt/mirrors/debian.list Mirrorlist [30 B]
+Get:2 file:/etc/apt/mirrors/debian-security.list Mirrorlist [39 B]                     
+Hit:8 https://packages.cloud.google.com/apt google-compute-engine-bookworm-stable InRelease         
+Hit:3 https://deb.debian.org/debian bookworm InRelease
+Hit:9 https://packages.cloud.google.com/apt cloud-sdk-bookworm InRelease
+Hit:4 https://deb.debian.org/debian bookworm-updates InRelease
+Hit:5 https://deb.debian.org/debian bookworm-backports InRelease
+Hit:10 https://packages.cloud.google.com/apt google-cloud-ops-agent-bookworm-2 InRelease
+Hit:6 https://deb.debian.org/debian-security bookworm-security InRelease
+Ign:7 https://www.docker.com bookworm InRelease        
+Err:11 https://www.docker.com bookworm Release
+  404  Not Found [IP: 23.185.0.4 443]
+Reading package lists... Done
+E: The repository 'https://docker.com bookworm Release' does not have a Release file.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+oleks1297@n8n-server:~/news-aggregator$ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Package docker-ce is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+Package docker-ce-cli is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'docker-ce' has no installation candidate
+E: Package 'docker-ce-cli' has no installation candidate
+E: Unable to locate package containerd.io
+E: Couldn't find any package by glob 'containerd.io'
+E: Couldn't find any package by regex 'containerd.io'
+E: Unable to locate package docker-buildx-plugin
+E: Unable to locate package docker-compose-plugin
+oleks1297@n8n-server:~/news-aggregator$ sudo rm /etc/apt/sources.list.d/docker.list
+oleks1297@n8n-server:~/news-aggregator$ sudo rm /etc/apt/keyrings/docker.gpg
+oleks1297@n8n-server:~/news-aggregator$ curl -fsSL https://docker.com | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+gpg: no valid OpenPGP data found.
+oleks1297@n8n-server:~/news-aggregator$ echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://docker.com \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+oleks1297@n8n-server:~/news-aggregator$ sudo apt-get update
+Get:1 file:/etc/apt/mirrors/debian.list Mirrorlist [30 B]
+Get:2 file:/etc/apt/mirrors/debian-security.list Mirrorlist [39 B]                      
+Hit:7 https://packages.cloud.google.com/apt google-compute-engine-bookworm-stable InRelease          
+Hit:9 https://packages.cloud.google.com/apt cloud-sdk-bookworm InRelease                                            
+Hit:3 https://deb.debian.org/debian bookworm InRelease                       
+Hit:4 https://deb.debian.org/debian bookworm-updates InRelease
+Hit:5 https://deb.debian.org/debian bookworm-backports InRelease
+Hit:10 https://packages.cloud.google.com/apt google-cloud-ops-agent-bookworm-2 InRelease
+Hit:6 https://deb.debian.org/debian-security bookworm-security InRelease     
+Ign:8 https://www.docker.com bookworm InRelease        
+Err:11 https://www.docker.com bookworm Release
+  404  Not Found [IP: 23.185.0.4 443]
+Reading package lists... Done
+E: The repository 'https://docker.com bookworm Release' does not have a Release file.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+oleks1297@n8n-server:~/news-aggregator$ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Package docker-ce is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+Package docker-ce-cli is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'docker-ce' has no installation candidate
+E: Package 'docker-ce-cli' has no installation candidate
+E: Unable to locate package containerd.io
+E: Couldn't find any package by glob 'containerd.io'
+E: Couldn't find any package by regex 'containerd.io'
+E: Unable to locate package docker-buildx-plugin
+E: Unable to locate package docker-compose-plugin
+oleks1297@n8n-server:~/news-aggregator$ free -m
+               total        used        free      shared  buff/cache   available
+Mem:             969         503         170           0         447         466
+Swap:           2047          75        1972
+oleks1297@n8n-server:~/news-aggregator$ cd ~/news-aggregator
+oleks1297@n8n-server:~/news-aggregator$ docker compose up -d
+unknown shorthand flag: 'd' in -d
+See 'docker --help'.
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default "/home/oleks1297/.docker")
+  -c, --context string     Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker context use")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level ("debug"|"info"|"warn"|"error"|"fatal") (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default "/home/oleks1297/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default "/home/oleks1297/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default "/home/oleks1297/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  builder     Manage builds
+  completion  Generate the autocompletion script for the specified shell
+  config      Manage Docker configs
+  container   Manage containers
+  context     Manage contexts
+  image       Manage images
+  manifest    Manage Docker image manifests and manifest lists
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  stack       Manage Docker stacks
+  swarm       Manage Swarm
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+
+To get more help with docker, check out our guides at https://docs.docker.com/go/guides/
+
+oleks1297@n8n-server:~/news-aggregator$ sudo rm /etc/apt/sources.list.d/docker.list
+sudo rm /etc/apt/keyrings/docker.gpg
+oleks1297@n8n-server:~/news-aggregator$ curl -fsSL https://docker.com | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+gpg: no valid OpenPGP data found.
+oleks1297@n8n-server:~/news-aggregator$ sudo rm -f /etc/apt/sources.list.d/docker.list
+sudo rm -f /etc/apt/keyrings/docker.gpg
+oleks1297@n8n-server:~/news-aggregator$ curl -fsSL https://docker.com | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+gpg: no valid OpenPGP data found.
+oleks1297@n8n-server:~/news-aggregator$ docker system prune -a -f
+Deleted Networks:
+news-aggregator_default
+
+Total reclaimed space: 0B
+oleks1297@n8n-server:~/news-aggregator$ docker-compose up -d
+Creating network "news-aggregator_default" with the default driver
+Pulling n8n (n8nio/n8n:latest)...
+latest: Pulling from n8nio/n8n
+22b37da5853a: Extracting [==================================================>]  1.882kB/1.882kB
+cb0e99e1c627: Download complete
+59ef0fb7d7f5: Download complete
+d1520cba0de0: Download complete
+ea2debf3e1ac: Download complete
+81d49b7a1dbb: Download complete
+b2b928fba1f9: Download complete
+4f4fb700ef54: Download complete
+3d9b688f2fde: Download complete
+5e4fde6196da: Download complete
+d11cda7746d3: Download complete
+ERROR: failed to register layer: Error processing tar file(exit status 1): archive/tar: invalid tar header
+oleks1297@n8n-server:~/news-aggregator$ 
