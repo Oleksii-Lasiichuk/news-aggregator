@@ -19,113 +19,83 @@
       }
     },
     {
-      "id": "rss-bbc",
-      "name": "RSS - BBC News",
+      "id": "rss-ukraine",
+      "name": "RSS - Ukraine War",
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1,
       "position": [480, 240],
       "parameters": {
-        "url": "http://feeds.bbci.co.uk/news/rss.xml"
+        "url": "https://news.google.com/rss/search?q=Ukraine+war&hl=en-US&gl=US&ceid=US:en"
       }
     },
     {
-      "id": "rss-kyiv",
-      "name": "RSS - Kyiv Independent",
+      "id": "rss-world",
+      "name": "RSS - World Politics",
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1,
       "position": [480, 440],
       "parameters": {
-        "url": "https://kyivindependent.com/feed/"
+        "url": "https://news.google.com/rss/search?q=world+politics&hl=en-US&gl=US&ceid=US:en"
       }
     },
     {
-      "id": "rss-ukrinform",
-      "name": "RSS - Ukrinform",
+      "id": "rss-tech",
+      "name": "RSS - Tech & Programming",
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1,
       "position": [480, 640],
       "parameters": {
-        "url": "https://www.ukrinform.net/rss/block-lastnews"
+        "url": "https://news.google.com/rss/search?q=software+engineering+OR+programming&hl=en-US&gl=US&ceid=US:en"
       }
     },
     {
-      "id": "rss-aljazeera",
-      "name": "RSS - Al Jazeera",
+      "id": "rss-ai",
+      "name": "RSS - AI",
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1,
       "position": [480, 840],
       "parameters": {
-        "url": "https://www.aljazeera.com/xml/rss/all.xml"
+        "url": "https://news.google.com/rss/search?q=artificial+intelligence&hl=en-US&gl=US&ceid=US:en"
       }
     },
     {
-      "id": "rss-reuters",
-      "name": "RSS - Reuters",
+      "id": "rss-sports",
+      "name": "RSS - Sports",
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1,
       "position": [480, 1040],
       "parameters": {
-        "url": "https://feeds.reuters.com/reuters/topNews"
-      }
-    },
-    {
-      "id": "rss-hn",
-      "name": "RSS - Hacker News",
-      "type": "n8n-nodes-base.rssFeedRead",
-      "typeVersion": 1,
-      "position": [480, 1240],
-      "parameters": {
-        "url": "https://news.ycombinator.com/rss"
-      }
-    },
-    {
-      "id": "rss-verge",
-      "name": "RSS - The Verge",
-      "type": "n8n-nodes-base.rssFeedRead",
-      "typeVersion": 1,
-      "position": [480, 1440],
-      "parameters": {
-        "url": "https://www.theverge.com/rss/index.xml"
-      }
-    },
-    {
-      "id": "rss-techcrunch",
-      "name": "RSS - TechCrunch AI",
-      "type": "n8n-nodes-base.rssFeedRead",
-      "typeVersion": 1,
-      "position": [480, 1640],
-      "parameters": {
-        "url": "https://techcrunch.com/category/artificial-intelligence/feed/"
-      }
-    },
-    {
-      "id": "rss-bbcsport",
-      "name": "RSS - BBC Sport",
-      "type": "n8n-nodes-base.rssFeedRead",
-      "typeVersion": 1,
-      "position": [480, 1840],
-      "parameters": {
-        "url": "http://feeds.bbci.co.uk/sport/rss.xml"
+        "url": "https://news.google.com/rss/search?q=sports+news&hl=en-US&gl=US&ceid=US:en"
       }
     },
     {
       "id": "rss-running",
-      "name": "RSS - Runner's World",
+      "name": "RSS - Running",
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1,
-      "position": [480, 2040],
+      "position": [480, 1240],
       "parameters": {
-        "url": "https://www.runnersworld.com/news/feed/"
+        "url": "https://news.google.com/rss/search?q=running+marathon&hl=en-US&gl=US&ceid=US:en"
       }
     },
     {
-      "id": "rss-wca",
-      "name": "RSS - WCA Speedcubing",
+      "id": "rss-speedcubing",
+      "name": "RSS - Speedcubing",
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1,
-      "position": [480, 2240],
+      "position": [480, 1440],
       "parameters": {
-        "url": "https://www.worldcubeassociation.org/feed"
+        "url": "https://news.google.com/rss/search?q=speedcubing+OR+%22rubiks+cube%22&hl=en-US&gl=US&ceid=US:en"
+      }
+    },
+    {
+      "id": "rss-science",
+      "name": "RSS - Science",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [480, 1640],
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=science+breakthrough&hl=en-US&gl=US&ceid=US:en"
       }
     },
     {
@@ -136,7 +106,7 @@
       "position": [780, 1200],
       "parameters": {
         "mode": "append",
-        "numberInputs": 11
+        "numberInputs": 8
       }
     },
     {
@@ -147,7 +117,7 @@
       "position": [1060, 1200],
       "parameters": {
         "mode": "runOnceForAllItems",
-        "jsCode": "var items = $input.all();\nvar seenUrls = {};\nvar result = [];\nvar cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);\nvar LIMIT = 50;\n\nvar sourceMap = [\n  [\"kyivindependent.com\", \"Kyiv Independent\"],\n  [\"ukrinform.net\", \"Ukrinform\"],\n  [\"aljazeera.com\", \"Al Jazeera\"],\n  [\"reuters.com\", \"Reuters\"],\n  [\"ycombinator.com\", \"Hacker News\"],\n  [\"theverge.com\", \"The Verge\"],\n  [\"techcrunch.com\", \"TechCrunch AI\"],\n  [\"runnersworld.com\", \"Runner's World\"],\n  [\"worldcubeassociation.org\", \"WCA Speedcubing\"],\n  [\"bbc.co.uk/sport\", \"BBC Sport\"],\n  [\"bbc.co.uk\", \"BBC News\"],\n  [\"bbc.com\", \"BBC News\"]\n];\n\nfunction detectSource(url) {\n  for (var i = 0; i < sourceMap.length; i++) {\n    if (url && url.indexOf(sourceMap[i][0]) !== -1) return sourceMap[i][1];\n  }\n  return \"News\";\n}\n\nfor (var i = 0; i < items.length; i++) {\n  if (result.length >= LIMIT) break;\n  var d = items[i].json;\n  var url = d.link || d.guid || \"\";\n  if (!url || seenUrls[url]) continue;\n  var pubDate = d.isoDate ? new Date(d.isoDate) : d.pubDate ? new Date(d.pubDate) : new Date();\n  if (pubDate < cutoff) continue;\n  seenUrls[url] = true;\n  var description = (d.contentSnippet || d.content || d.summary || d.description || \"\").replace(/<[^>]*>/g, \"\").substring(0, 600);\n  result.push({\n    json: {\n      title: (d.title || \"Untitled\").substring(0, 300),\n      url: url,\n      description: description,\n      source: detectSource(url),\n      published_at: pubDate.toISOString()\n    }\n  });\n}\n\nreturn result;"
+        "jsCode": "var items = $input.all();\nvar seenUrls = {};\nvar result = [];\nvar cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);\nvar LIMIT = 50;\n\nfunction extractSource(d) {\n  if (d.source) {\n    if (typeof d.source === 'string') return d.source;\n    if (d.source._) return d.source._;\n    if (d.source.$ && d.source.$.url) return d.source.$.url;\n  }\n  var m = (d.title || '').match(/ - ([^-]+)$/);\n  return m ? m[1].trim() : 'News';\n}\n\nfor (var i = 0; i < items.length; i++) {\n  if (result.length >= LIMIT) break;\n  var d = items[i].json;\n  var url = d.link || d.guid || '';\n  if (!url || seenUrls[url]) continue;\n  var pubDate = d.isoDate ? new Date(d.isoDate) : d.pubDate ? new Date(d.pubDate) : new Date();\n  if (pubDate < cutoff) continue;\n  seenUrls[url] = true;\n\n  var cleanTitle = (d.title || 'Untitled').replace(/ - [^-]+$/, '').substring(0, 300);\n  var description = (d.contentSnippet || d.content || d.summary || d.description || '').replace(/<[^>]*>/g, '').substring(0, 600);\n\n  result.push({\n    json: {\n      title: cleanTitle,\n      url: url,\n      description: description,\n      source: extractSource(d),\n      published_at: pubDate.toISOString()\n    }\n  });\n}\n\nreturn result;"
       }
     },
     {
@@ -157,7 +127,7 @@
       "typeVersion": 2,
       "position": [1340, 1200],
       "parameters": {
-        "jsCode": "var article = $json;\nvar prompt = \"You are a news curator for a Ukrainian programmer interested in:\\n\" +\n  \"- Ukraine news, Russia-Ukraine war, Ukrainian politics and society\\n\" +\n  \"- World politics, international conflicts, wars, geography\\n\" +\n  \"- Software engineering, programming, developer tools, open source\\n\" +\n  \"- Artificial intelligence and machine learning\\n\" +\n  \"- Speedcubing (Rubik cube competitions and world records)\\n\" +\n  \"- Running, marathons, endurance sports\\n\" +\n  \"- Sports news (football, athletics, etc.)\\n\\n\" +\n  \"Rate this article 1-10 for relevance to this person.\\n\" +\n  \"Be strict: 8-10 for truly important/exciting news, 6-7 for interesting, 1-5 for unrelated.\\n\\n\" +\n  \"Title: \" + article.title + \"\\n\" +\n  \"Description: \" + (article.description || \"\").substring(0, 500) + \"\\n\\n\" +\n  \"Respond ONLY with valid JSON (no extra text, no markdown):\\n\" +\n  \"{\\\"score\\\": <1-10>, \\\"summary\\\": \\\"<exactly 2 English sentences>\\\", \\\"topics\\\": [\\\"<tag>\\\", ...]}\\n\\n\" +\n  \"Valid topic tags: ukraine, war, politics, tech, ai, programming, speedcubing, running, sports, geography, world, science\";\n\nreturn [{\n  json: {\n    title: article.title,\n    url: article.url,\n    description: article.description,\n    source: article.source,\n    published_at: article.published_at,\n    _groqBody: {\n      model: \"llama-3.3-70b-versatile\",\n      messages: [{ role: \"user\", content: prompt }],\n      temperature: 0.1,\n      max_tokens: 350,\n      response_format: { type: \"json_object\" }\n    }\n  }\n}];"
+        "jsCode": "// Prompt source-of-truth: prompts/news-curator.md — edit there, paste here, save workflow.\nvar article = $json;\nvar prompt = \"You are a news curator for a Ukrainian programmer interested in:\\n\" +\n  \"- Ukraine news, Russia-Ukraine war, Ukrainian politics and society\\n\" +\n  \"- World politics, international conflicts, wars, geography\\n\" +\n  \"- Software engineering, programming, developer tools, open source\\n\" +\n  \"- Artificial intelligence and machine learning\\n\" +\n  \"- Speedcubing (Rubik cube competitions and world records)\\n\" +\n  \"- Running, marathons, endurance sports\\n\" +\n  \"- Sports news (football, athletics, etc.)\\n\\n\" +\n  \"Rate this article 1-10 for relevance to this person.\\n\" +\n  \"Be strict: 8-10 for truly important/exciting news, 6-7 for interesting, 1-5 for unrelated.\\n\\n\" +\n  \"Title: \" + article.title + \"\\n\" +\n  \"Description: \" + (article.description || \"\").substring(0, 500) + \"\\n\\n\" +\n  \"Respond ONLY with valid JSON (no extra text, no markdown):\\n\" +\n  \"{\\\"score\\\": <1-10>, \\\"summary\\\": \\\"<exactly 2 English sentences>\\\", \\\"topics\\\": [\\\"<tag>\\\", ...]}\\n\\n\" +\n  \"Valid topic tags: ukraine, war, politics, tech, ai, programming, speedcubing, running, sports, geography, world, science\";\n\nreturn [{\n  json: {\n    title: article.title,\n    url: article.url,\n    description: article.description,\n    source: article.source,\n    published_at: article.published_at,\n    _groqBody: {\n      model: \"llama-3.3-70b-versatile\",\n      messages: [{ role: \"user\", content: prompt }],\n      temperature: 0.1,\n      max_tokens: 350,\n      response_format: { type: \"json_object\" }\n    }\n  }\n}];"
       }
     },
     {
@@ -237,7 +207,7 @@
       "position": [2460, 1200],
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.SUPABASE_URL }}/rest/v1/articles",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/articles?on_conflict=url",
         "authentication": "none",
         "sendBody": true,
         "contentType": "json",
@@ -273,36 +243,30 @@
     "Schedule Trigger": {
       "main": [
         [
-          {"node": "RSS - BBC News",        "type": "main", "index": 0},
-          {"node": "RSS - Kyiv Independent","type": "main", "index": 0},
-          {"node": "RSS - Ukrinform",       "type": "main", "index": 0},
-          {"node": "RSS - Al Jazeera",      "type": "main", "index": 0},
-          {"node": "RSS - Reuters",         "type": "main", "index": 0},
-          {"node": "RSS - Hacker News",     "type": "main", "index": 0},
-          {"node": "RSS - The Verge",       "type": "main", "index": 0},
-          {"node": "RSS - TechCrunch AI",   "type": "main", "index": 0},
-          {"node": "RSS - BBC Sport",       "type": "main", "index": 0},
-          {"node": "RSS - Runner's World",  "type": "main", "index": 0},
-          {"node": "RSS - WCA Speedcubing", "type": "main", "index": 0}
+          {"node": "RSS - Ukraine War",         "type": "main", "index": 0},
+          {"node": "RSS - World Politics",      "type": "main", "index": 0},
+          {"node": "RSS - Tech & Programming",  "type": "main", "index": 0},
+          {"node": "RSS - AI",                  "type": "main", "index": 0},
+          {"node": "RSS - Sports",              "type": "main", "index": 0},
+          {"node": "RSS - Running",             "type": "main", "index": 0},
+          {"node": "RSS - Speedcubing",         "type": "main", "index": 0},
+          {"node": "RSS - Science",             "type": "main", "index": 0}
         ]
       ]
     },
-    "RSS - BBC News":        {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 0}]]},
-    "RSS - Kyiv Independent":{"main": [[{"node": "Merge All Feeds", "type": "main", "index": 1}]]},
-    "RSS - Ukrinform":       {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 2}]]},
-    "RSS - Al Jazeera":      {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 3}]]},
-    "RSS - Reuters":         {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 4}]]},
-    "RSS - Hacker News":     {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 5}]]},
-    "RSS - The Verge":       {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 6}]]},
-    "RSS - TechCrunch AI":   {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 7}]]},
-    "RSS - BBC Sport":       {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 8}]]},
-    "RSS - Runner's World":  {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 9}]]},
-    "RSS - WCA Speedcubing": {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 10}]]},
-    "Merge All Feeds":       {"main": [[{"node": "Process Articles",      "type": "main", "index": 0}]]},
-    "Process Articles":      {"main": [[{"node": "Prepare Groq Request",  "type": "main", "index": 0}]]},
-    "Prepare Groq Request":  {"main": [[{"node": "Groq AI Analysis",      "type": "main", "index": 0}]]},
-    "Groq AI Analysis":      {"main": [[{"node": "Parse Groq Response",   "type": "main", "index": 0}]]},
-    "Parse Groq Response":   {"main": [[{"node": "Score Filter",          "type": "main", "index": 0}]]},
+    "RSS - Ukraine War":        {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 0}]]},
+    "RSS - World Politics":     {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 1}]]},
+    "RSS - Tech & Programming": {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 2}]]},
+    "RSS - AI":                 {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 3}]]},
+    "RSS - Sports":             {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 4}]]},
+    "RSS - Running":            {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 5}]]},
+    "RSS - Speedcubing":        {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 6}]]},
+    "RSS - Science":            {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 7}]]},
+    "Merge All Feeds":          {"main": [[{"node": "Process Articles",     "type": "main", "index": 0}]]},
+    "Process Articles":         {"main": [[{"node": "Prepare Groq Request", "type": "main", "index": 0}]]},
+    "Prepare Groq Request":     {"main": [[{"node": "Groq AI Analysis",     "type": "main", "index": 0}]]},
+    "Groq AI Analysis":         {"main": [[{"node": "Parse Groq Response",  "type": "main", "index": 0}]]},
+    "Parse Groq Response":      {"main": [[{"node": "Score Filter",         "type": "main", "index": 0}]]},
     "Score Filter": {
       "main": [
         [{"node": "Save to Supabase", "type": "main", "index": 0}],

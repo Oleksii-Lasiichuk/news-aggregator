@@ -47,3 +47,28 @@ BEGIN
   DELETE FROM articles WHERE created_at < NOW() - INTERVAL '14 days';
 END;
 $$ LANGUAGE plpgsql;
+
+-- Per-user topic preferences (populated from the website after sign-in)
+CREATE TABLE IF NOT EXISTS user_preferences (
+  user_id    UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  topics     TEXT[] DEFAULT '{}',
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE user_preferences ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users read own prefs"
+  ON user_preferences FOR SELECT
+  TO authenticated
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Users insert own prefs"
+  ON user_preferences FOR INSERT
+  TO authenticated
+  WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users update own prefs"
+  ON user_preferences FOR UPDATE
+  TO authenticated
+  USING (auth.uid() = user_id)
+  WITH CHECK (auth.uid() = user_id);

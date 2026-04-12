@@ -244,9 +244,11 @@ Click the **Groq AI Analysis** node → check that:
 
 Click the **Save to Supabase** node → check that:
 - Method: POST
-- URL: `={{ $env.SUPABASE_URL }}/rest/v1/articles`
+- URL: `={{ $env.SUPABASE_URL }}/rest/v1/articles?on_conflict=url`
 - Header "apikey": `={{ $env.SUPABASE_ANON_KEY }}`
 - Header "Prefer": `resolution=ignore-duplicates`
+
+> **Why the `?on_conflict=url`?** PostgREST only treats a POST as insert-or-skip when you tell it which column to check. The `Prefer` header alone is not enough — without `on_conflict=url` you get `duplicate key value violates unique constraint "articles_url_key"` the second time the same article shows up in RSS.
 
 **Test the workflow:**
 1. Click the **Execute Workflow** button (▶) in the top toolbar
@@ -257,6 +259,19 @@ Click the **Save to Supabase** node → check that:
 1. Click the **Active** toggle in the top-right corner of the workflow editor
 2. It turns green — the workflow now runs automatically every 2 hours
 3. You can close the n8n browser tab and disconnect the SSH tunnel — it keeps running
+
+---
+
+## Step 10b — Enable user auth in Supabase (≈ 2 min)
+
+The website supports sign-in via email magic link so each user can save their own topic preferences.
+
+1. Supabase dashboard → **Authentication** → **Providers**
+2. Click **Email** → make sure it is **enabled**
+3. Leave "Confirm email" on, "Secure email change" on — defaults are fine
+4. Under **URL Configuration**, add your GitHub Pages URL as a **Site URL** and **Redirect URL** (e.g. `https://YOUR_USERNAME.github.io/news-aggregator/`)
+
+That's it. No SMTP setup needed — Supabase's built-in mailer covers the free tier (a few emails/hour).
 
 ---
 
@@ -310,18 +325,18 @@ ssh YOUR_VM_IP "docker ps"
 
 ## How the workflow works
 
-```
+```text
 Schedule Trigger (every 2h)
-  → fetches 11 RSS feeds in parallel
+  → fetches 8 Google News RSS topic feeds in parallel
   → Merge All Feeds: combines ~200-300 articles
   → Process Articles (Code):
        - deduplicates by URL
        - filters to last 24 hours only
-       - detects source (BBC, Reuters, etc.)
+       - extracts publisher from Google News source/title suffix
        - limits to 50 articles per run
   → Prepare Groq Request (Code):
        - builds the AI prompt with article title + description
-       - includes user interest profile
+       - prompt source-of-truth lives in prompts/news-curator.md
   → Groq AI Analysis (HTTP):
        - calls llama-3.3-70b-versatile
        - gets relevance score 1-10 + 2-sentence summary + topic tags
@@ -331,26 +346,34 @@ Schedule Trigger (every 2h)
        - score ≥ 6 → save to Supabase
        - score < 6 → discard
   → Save to Supabase (HTTP):
-       - INSERT with ON CONFLICT DO NOTHING (skips duplicates silently)
+       - POST /articles?on_conflict=url with Prefer: resolution=ignore-duplicates
+       - duplicates are silently skipped, no 409 errors
 ```
 
 ---
 
 ## RSS Feed Sources
 
-| Source | Topics covered |
-|--------|---------------|
-| BBC News | World news, politics |
-| Kyiv Independent | Ukraine, war |
-| Ukrinform | Ukraine, war |
-| Al Jazeera | World politics, wars |
-| Reuters | World news, finance |
-| Hacker News | Programming, tech startups, AI |
-| The Verge | Tech, AI, gadgets |
-| TechCrunch AI | Artificial intelligence |
-| BBC Sport | Sports |
-| Runner's World | Running, fitness |
-| WCA Speedcubing | Speedcubing competitions |
+Instead of maintaining 11 fragile direct-publisher RSS feeds (many of which get retired or change URLs without notice), the workflow now uses **8 Google News RSS topic queries**. One provider, one URL template, covers every topic, never 404s, and the topic is encoded directly in the URL.
+
+URL template:
+
+```text
+https://news.google.com/rss/search?q=<URL-encoded query>&hl=en-US&gl=US&ceid=US:en
+```
+
+| Node | Query |
+|------|-------|
+| RSS - Ukraine War | `Ukraine war` |
+| RSS - World Politics | `world politics` |
+| RSS - Tech & Programming | `software engineering OR programming` |
+| RSS - AI | `artificial intelligence` |
+| RSS - Sports | `sports news` |
+| RSS - Running | `running marathon` |
+| RSS - Speedcubing | `speedcubing OR "rubiks cube"` |
+| RSS - Science | `science breakthrough` |
+
+Publisher (BBC, Reuters, Guardian, etc.) is extracted from the Google News item's `source` field or the `" - Publisher"` suffix at the end of the title. To add a new topic, just add an RSS Feed Read node with a new `q=` query and connect it to `Merge All Feeds`.
 
 ---
 

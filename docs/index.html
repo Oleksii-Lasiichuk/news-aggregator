@@ -12,13 +12,44 @@
       <h1>My News Feed</h1>
       <div class="header-right">
         <span id="lastUpdated" class="muted">Loading...</span>
+        <div id="authBar" class="auth-bar">
+          <button id="signInBtn" class="btn-ghost">Sign in</button>
+          <span id="userEmail" class="muted" hidden></span>
+          <button id="signOutBtn" class="btn-ghost" hidden>Sign out</button>
+        </div>
         <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">☀</button>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- Search + Sort -->
+    <!-- Topic picker (visible only when signed in) -->
+    <section id="topicPicker" class="topic-picker" hidden>
+      <div class="topic-picker-head">
+        <h2>My topics</h2>
+        <button id="topicPickerToggle" class="btn-ghost" aria-expanded="false">Edit</button>
+      </div>
+      <div id="topicPickerBody" class="topic-picker-body" hidden>
+        <p class="muted">Pick the topics you care about. Filter with the toggle below.</p>
+        <div id="presetChips" class="chip-row"></div>
+        <div class="custom-topic-row">
+          <input
+            type="text"
+            id="customTopicInput"
+            placeholder="Add a custom topic (e.g. drones)"
+            autocomplete="off"
+          />
+          <button id="addCustomTopicBtn" class="btn-primary">Add</button>
+        </div>
+        <div id="selectedTopics" class="chip-row selected-topics"></div>
+        <div class="topic-picker-actions">
+          <button id="savePrefsBtn" class="btn-primary">Save preferences</button>
+          <span id="prefsStatus" class="muted"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search + Sort + "my topics only" toggle -->
     <div class="toolbar">
       <input
         type="search"
@@ -30,9 +61,13 @@
         <option value="date">Newest first</option>
         <option value="score">Top rated</option>
       </select>
+      <label id="myTopicsOnlyWrap" class="toggle-label" hidden>
+        <input type="checkbox" id="myTopicsOnly" />
+        <span>My topics only</span>
+      </label>
     </div>
 
-    <!-- Topic filter chips -->
+    <!-- Topic filter chips (from article data) -->
     <div id="topicFilters" class="chip-row">
       <button class="chip active" data-topic="all">All</button>
     </div>
@@ -42,7 +77,6 @@
 
     <!-- Cards -->
     <div id="articlesGrid" class="grid">
-      <!-- skeleton placeholders -->
       <div class="card skeleton"></div>
       <div class="card skeleton"></div>
       <div class="card skeleton"></div>
@@ -56,14 +90,29 @@
     </div>
   </main>
 
+  <!-- Sign-in modal -->
+  <div id="signInModal" class="modal" hidden>
+    <div class="modal-card">
+      <h2>Sign in with email</h2>
+      <p class="muted">Enter your email and we'll send a one-time magic link. No password needed.</p>
+      <input type="email" id="signInEmail" placeholder="you@example.com" autocomplete="email" />
+      <div class="modal-actions">
+        <button id="signInCancelBtn" class="btn-ghost">Cancel</button>
+        <button id="signInSubmitBtn" class="btn-primary">Send link</button>
+      </div>
+      <p id="signInStatus" class="muted"></p>
+    </div>
+  </div>
+
   <!--
     CONFIGURE THESE TWO VALUES after creating your Supabase project.
-    The anon key is safe to embed — it's read-only, protected by RLS.
+    The anon key is safe to embed — it's protected by Row Level Security.
   -->
   <script>
     window.SUPABASE_URL      = 'https://lwnxyzpwkspucajsidvx.supabase.co';
     window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3bnh5enB3a3NwdWNhanNpZHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MzU4NTIsImV4cCI6MjA5MTUxMTg1Mn0.3ya2pA_PEvr8L9uei_jNdyDuvTQosZ09ybFglMl7CBo';
   </script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
 </body>
 </html>
