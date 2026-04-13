@@ -95,7 +95,27 @@
       "typeVersion": 1,
       "position": [480, 1640],
       "parameters": {
-        "url": "https://news.google.com/rss/search?q=science+breakthrough&hl=en-US&gl=US&ceid=US:en"
+        "url": "https://news.google.com/rss/search?q=science+discovery+OR+research+breakthrough&hl=en-US&gl=US&ceid=US:en"
+      }
+    },
+    {
+      "id": "rss-space",
+      "name": "RSS - Space",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [480, 1840],
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=space+exploration+OR+NASA+OR+SpaceX+OR+astronomy&hl=en-US&gl=US&ceid=US:en"
+      }
+    },
+    {
+      "id": "rss-trending",
+      "name": "RSS - Trending",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [480, 2040],
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=viral+trending+story&hl=en-US&gl=US&ceid=US:en"
       }
     },
     {
@@ -106,7 +126,7 @@
       "position": [780, 1200],
       "parameters": {
         "mode": "append",
-        "numberInputs": 8
+        "numberInputs": 10
       }
     },
     {
@@ -117,7 +137,7 @@
       "position": [1060, 1200],
       "parameters": {
         "mode": "runOnceForAllItems",
-        "jsCode": "var items = $input.all();\nvar seenUrls = {};\nvar result = [];\nvar cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);\nvar LIMIT = 50;\n\nfunction extractSource(d) {\n  if (d.source) {\n    if (typeof d.source === 'string') return d.source;\n    if (d.source._) return d.source._;\n    if (d.source.$ && d.source.$.url) return d.source.$.url;\n  }\n  var m = (d.title || '').match(/ - ([^-]+)$/);\n  return m ? m[1].trim() : 'News';\n}\n\nfor (var i = 0; i < items.length; i++) {\n  if (result.length >= LIMIT) break;\n  var d = items[i].json;\n  var url = d.link || d.guid || '';\n  if (!url || seenUrls[url]) continue;\n  var pubDate = d.isoDate ? new Date(d.isoDate) : d.pubDate ? new Date(d.pubDate) : new Date();\n  if (pubDate < cutoff) continue;\n  seenUrls[url] = true;\n\n  var cleanTitle = (d.title || 'Untitled').replace(/ - [^-]+$/, '').substring(0, 300);\n  var description = (d.contentSnippet || d.content || d.summary || d.description || '').replace(/<[^>]*>/g, '').substring(0, 600);\n\n  result.push({\n    json: {\n      title: cleanTitle,\n      url: url,\n      description: description,\n      source: extractSource(d),\n      published_at: pubDate.toISOString()\n    }\n  });\n}\n\nreturn result;"
+        "jsCode": "// ──────────────────────────────────────────────────────────────────────\n// Process Articles\n// 1. Pull each feed separately so per-feed quotas can be enforced.\n// 2. Within each feed: sort by date desc, drop stale (>24h) and URL dupes.\n// 3. Round-robin across feeds so no single topic drowns the others.\n// 4. Title-similarity dedup (Jaccard ≥ 0.6) catches the same story\n//    appearing under different URLs from different publishers.\n// ──────────────────────────────────────────────────────────────────────\n\nvar FEEDS = [\n  { node: 'RSS - Ukraine War',         topic: 'ukraine'    },\n  { node: 'RSS - World Politics',      topic: 'world'      },\n  { node: 'RSS - Tech & Programming',  topic: 'tech'       },\n  { node: 'RSS - AI',                  topic: 'ai'         },\n  { node: 'RSS - Sports',              topic: 'sports'     },\n  { node: 'RSS - Running',             topic: 'running'    },\n  { node: 'RSS - Speedcubing',         topic: 'speedcubing'},\n  { node: 'RSS - Science',             topic: 'science'    },\n  { node: 'RSS - Space',               topic: 'space'      },\n  { node: 'RSS - Trending',            topic: 'trending'   }\n];\n\nvar PER_FEED_CAP = 5;\nvar TOTAL_CAP    = 50;\nvar SIM_THRESH   = 0.6;\nvar STALE_HOURS  = 24;\n\nvar STOPWORDS = {a:1,an:1,the:1,of:1,in:1,on:1,at:1,to:1,for:1,with:1,and:1,or:1,but:1,is:1,are:1,was:1,were:1,be:1,been:1,has:1,have:1,had:1,will:1,says:1,said:1,after:1,before:1,as:1,by:1,from:1,how:1,why:1,what:1,when:1,who:1,its:1,this:1,that:1,not:1,new:1};\n\nfunction tokenize(title) {\n  return (title || '').toLowerCase()\n    .replace(/^(live|watch|video|update|breaking|exclusive|opinion|analysis)[:\\s-]+/i, '')\n    .replace(/[^a-z0-9\\s]/g, ' ')\n    .split(/\\s+/)\n    .filter(function (w) { return w.length > 2 && !STOPWORDS[w]; });\n}\n\nfunction toSet(tokens) {\n  var s = {};\n  for (var i = 0; i < tokens.length; i++) s[tokens[i]] = 1;\n  return s;\n}\n\nfunction jaccard(setA, setB) {\n  var keysA = Object.keys(setA);\n  var keysB = Object.keys(setB);\n  if (keysA.length === 0 || keysB.length === 0) return 0;\n  var inter = 0;\n  for (var k = 0; k < keysA.length; k++) if (setB[keysA[k]]) inter++;\n  return inter / (keysA.length + keysB.length - inter);\n}\n\nfunction extractSource(d) {\n  if (d.source) {\n    if (typeof d.source === 'string') return d.source;\n    if (d.source._) return d.source._;\n    if (d.source.$ && d.source.$.url) return d.source.$.url;\n  }\n  var m = (d.title || '').match(/ - ([^-]+)$/);\n  return m ? m[1].trim() : 'News';\n}\n\nvar cutoff = new Date(Date.now() - STALE_HOURS * 60 * 60 * 1000);\n\n// Phase 1 — collect candidates per feed, sorted newest first, capped\nvar perFeed = [];\nfor (var f = 0; f < FEEDS.length; f++) {\n  var feed = FEEDS[f];\n  var rawItems;\n  try { rawItems = $(feed.node).all(); } catch (e) { rawItems = []; }\n\n  var sorted = rawItems\n    .map(function (it) { return it.json; })\n    .sort(function (a, b) {\n      var da = new Date(a.isoDate || a.pubDate || 0).getTime();\n      var db = new Date(b.isoDate || b.pubDate || 0).getTime();\n      return db - da;\n    });\n\n  var kept = [];\n  for (var i = 0; i < sorted.length && kept.length < PER_FEED_CAP; i++) {\n    var d = sorted[i];\n    var url = d.link || d.guid || '';\n    if (!url) continue;\n    var pubDate = d.isoDate ? new Date(d.isoDate) : d.pubDate ? new Date(d.pubDate) : new Date();\n    if (pubDate < cutoff) continue;\n\n    var cleanTitle = (d.title || 'Untitled').replace(/ - [^-]+$/, '').substring(0, 300);\n    kept.push({\n      url: url,\n      pubDate: pubDate,\n      cleanTitle: cleanTitle,\n      tokens: tokenize(cleanTitle),\n      raw: d,\n      feedTopic: feed.topic\n    });\n  }\n  perFeed.push(kept);\n}\n\n// Phase 2 — round-robin merge with global URL + title-similarity dedup\nvar seenUrls = {};\nvar keptSets = [];\nvar result = [];\n\nfor (var rank = 0; rank < PER_FEED_CAP && result.length < TOTAL_CAP; rank++) {\n  for (var fi = 0; fi < perFeed.length && result.length < TOTAL_CAP; fi++) {\n    var c = perFeed[fi][rank];\n    if (!c) continue;\n    if (seenUrls[c.url]) continue;\n\n    var newSet = toSet(c.tokens);\n    var dup = false;\n    for (var t = 0; t < keptSets.length; t++) {\n      if (jaccard(keptSets[t], newSet) >= SIM_THRESH) { dup = true; break; }\n    }\n    if (dup) continue;\n\n    seenUrls[c.url] = true;\n    keptSets.push(newSet);\n\n    var description = (c.raw.contentSnippet || c.raw.content || c.raw.summary || c.raw.description || '')\n      .replace(/<[^>]*>/g, '')\n      .substring(0, 600);\n\n    result.push({\n      json: {\n        title: c.cleanTitle,\n        url: c.url,\n        description: description,\n        source: extractSource(c.raw),\n        feedTopic: c.feedTopic,\n        published_at: c.pubDate.toISOString()\n      }\n    });\n  }\n}\n\nreturn result;"
       }
     },
     {
@@ -127,7 +147,7 @@
       "typeVersion": 2,
       "position": [1340, 1200],
       "parameters": {
-        "jsCode": "// Prompt source-of-truth: prompts/news-curator.md — edit there, paste here, save workflow.\nvar article = $json;\nvar prompt = \"You are a news curator for a Ukrainian programmer interested in:\\n\" +\n  \"- Ukraine news, Russia-Ukraine war, Ukrainian politics and society\\n\" +\n  \"- World politics, international conflicts, wars, geography\\n\" +\n  \"- Software engineering, programming, developer tools, open source\\n\" +\n  \"- Artificial intelligence and machine learning\\n\" +\n  \"- Speedcubing (Rubik cube competitions and world records)\\n\" +\n  \"- Running, marathons, endurance sports\\n\" +\n  \"- Sports news (football, athletics, etc.)\\n\\n\" +\n  \"Rate this article 1-10 for relevance to this person.\\n\" +\n  \"Be strict: 8-10 for truly important/exciting news, 6-7 for interesting, 1-5 for unrelated.\\n\\n\" +\n  \"Title: \" + article.title + \"\\n\" +\n  \"Description: \" + (article.description || \"\").substring(0, 500) + \"\\n\\n\" +\n  \"Respond ONLY with valid JSON (no extra text, no markdown):\\n\" +\n  \"{\\\"score\\\": <1-10>, \\\"summary\\\": \\\"<exactly 2 English sentences>\\\", \\\"topics\\\": [\\\"<tag>\\\", ...]}\\n\\n\" +\n  \"Valid topic tags: ukraine, war, politics, tech, ai, programming, speedcubing, running, sports, geography, world, science\";\n\nreturn [{\n  json: {\n    title: article.title,\n    url: article.url,\n    description: article.description,\n    source: article.source,\n    published_at: article.published_at,\n    _groqBody: {\n      model: \"llama-3.3-70b-versatile\",\n      messages: [{ role: \"user\", content: prompt }],\n      temperature: 0.1,\n      max_tokens: 350,\n      response_format: { type: \"json_object\" }\n    }\n  }\n}];"
+        "jsCode": "// Prompt source-of-truth: prompts/news-curator.md — edit there, paste here, save workflow.\nvar article = $json;\nvar prompt = \"You are a news curator for a Ukrainian programmer interested in:\\n\" +\n  \"- Ukraine news, Russia-Ukraine war, Ukrainian politics and society\\n\" +\n  \"- World politics, international conflicts, wars, geography\\n\" +\n  \"- Software engineering, programming, developer tools, open source\\n\" +\n  \"- Artificial intelligence and machine learning\\n\" +\n  \"- Speedcubing (Rubik cube competitions and world records)\\n\" +\n  \"- Running, marathons, endurance sports\\n\" +\n  \"- Sports news (football, athletics, etc.)\\n\" +\n  \"- Science, research, discoveries\\n\" +\n  \"- Space, NASA, SpaceX, astronomy, exoplanets\\n\" +\n  \"- Trending / viral stories — what regular people are talking about (so the user stays in the loop). Score these 7-8 if they are truly viral or culturally significant, 5-6 if mildly interesting, lower if niche or boring.\\n\\n\" +\n  \"Rate this article 1-10 for relevance to this person.\\n\" +\n  \"Be strict: 8-10 for truly important/exciting news, 6-7 for interesting, 1-5 for unrelated.\\n\" +\n  \"Aim for topical balance — do not under-score space/science/trending just because they are not Ukraine or AI.\\n\\n\" +\n  \"Source feed hint: \" + (article.feedTopic || \"unknown\") + \"\\n\" +\n  \"Title: \" + article.title + \"\\n\" +\n  \"Description: \" + (article.description || \"\").substring(0, 500) + \"\\n\\n\" +\n  \"Respond ONLY with valid JSON (no extra text, no markdown):\\n\" +\n  \"{\\\"score\\\": <1-10>, \\\"summary\\\": \\\"<exactly 2 English sentences>\\\", \\\"topics\\\": [\\\"<tag>\\\", ...]}\\n\\n\" +\n  \"Valid topic tags: ukraine, war, politics, tech, ai, programming, speedcubing, running, sports, geography, world, science, space, trending\";\n\nreturn [{\n  json: {\n    title: article.title,\n    url: article.url,\n    description: article.description,\n    source: article.source,\n    feedTopic: article.feedTopic,\n    published_at: article.published_at,\n    prompt: prompt\n  }\n}];"
       }
     },
     {
@@ -141,8 +161,9 @@
         "url": "https://api.groq.com/openai/v1/chat/completions",
         "authentication": "none",
         "sendBody": true,
+        "specifyBody": "json",
         "contentType": "json",
-        "body": "={{ $json._groqBody }}",
+        "jsonBody": "={\n  \"model\": \"llama-3.3-70b-versatile\",\n  \"messages\": [{\"role\": \"user\", \"content\": {{ JSON.stringify($json.prompt) }}}],\n  \"temperature\": 0.1,\n  \"max_tokens\": 350,\n  \"response_format\": {\"type\": \"json_object\"}\n}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -168,7 +189,8 @@
       "typeVersion": 2,
       "position": [1900, 1200],
       "parameters": {
-        "jsCode": "var groqResponse = $json;\nvar article = $(\"Prepare Groq Request\").item.json;\nvar content = (groqResponse && groqResponse.choices && groqResponse.choices[0] && groqResponse.choices[0].message) ? groqResponse.choices[0].message.content : \"{}\";\n\nvar ai;\ntry {\n  var cleaned = content.replace(/```json\\n?|```\\n?/g, \"\").trim();\n  ai = JSON.parse(cleaned);\n} catch (e) {\n  return [];\n}\n\nvar score = parseInt(ai.score);\nif (!score || score < 1 || score > 10) return [];\n\nreturn [{\n  json: {\n    title: article.title,\n    url: article.url,\n    source: article.source,\n    published_at: article.published_at,\n    summary: (ai.summary || \"\").substring(0, 500),\n    score: score,\n    topics: Array.isArray(ai.topics) ? ai.topics.slice(0, 6) : []\n  }\n}];"
+        "mode": "runOnceForEachItem",
+        "jsCode": "var groqResponse = $json;\nvar article = $(\"Prepare Groq Request\").item.json;\n\nvar content = (groqResponse && groqResponse.choices && groqResponse.choices[0] && groqResponse.choices[0].message) ? groqResponse.choices[0].message.content : \"{}\";\n\nvar ai;\ntry {\n  var cleaned = content.replace(/```json\\n?|```\\n?/g, \"\").trim();\n  ai = JSON.parse(cleaned);\n} catch (e) {\n  return null;\n}\n\nvar score = parseInt(ai.score);\nif (!score || score < 1 || score > 10) return null;\n\nvar topics = Array.isArray(ai.topics) ? ai.topics.slice(0, 6) : [];\nif (article.feedTopic && topics.indexOf(article.feedTopic) === -1) {\n  topics.unshift(article.feedTopic);\n}\n\nreturn {\n  json: {\n    title: article.title,\n    url: article.url,\n    source: article.source,\n    published_at: article.published_at,\n    summary: (ai.summary || \"\").substring(0, 500),\n    score: score,\n    topics: topics.slice(0, 6)\n  }\n};"
       }
     },
     {
@@ -250,7 +272,9 @@
           {"node": "RSS - Sports",              "type": "main", "index": 0},
           {"node": "RSS - Running",             "type": "main", "index": 0},
           {"node": "RSS - Speedcubing",         "type": "main", "index": 0},
-          {"node": "RSS - Science",             "type": "main", "index": 0}
+          {"node": "RSS - Science",             "type": "main", "index": 0},
+          {"node": "RSS - Space",               "type": "main", "index": 0},
+          {"node": "RSS - Trending",            "type": "main", "index": 0}
         ]
       ]
     },
@@ -262,6 +286,8 @@
     "RSS - Running":            {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 5}]]},
     "RSS - Speedcubing":        {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 6}]]},
     "RSS - Science":            {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 7}]]},
+    "RSS - Space":              {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 8}]]},
+    "RSS - Trending":           {"main": [[{"node": "Merge All Feeds", "type": "main", "index": 9}]]},
     "Merge All Feeds":          {"main": [[{"node": "Process Articles",     "type": "main", "index": 0}]]},
     "Process Articles":         {"main": [[{"node": "Prepare Groq Request", "type": "main", "index": 0}]]},
     "Prepare Groq Request":     {"main": [[{"node": "Groq AI Analysis",     "type": "main", "index": 0}]]},

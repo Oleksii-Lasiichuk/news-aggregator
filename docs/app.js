@@ -8,8 +8,10 @@ window.sb    = sb;
 window.state = null; // populated below
 
 const PRESET_TOPICS = [
-  'ukraine','war','politics','tech','ai','programming',
-  'speedcubing','running','sports','geography','world','science','health'
+  'ukraine','war','politics','world','geography',
+  'tech','ai','programming',
+  'sports','running','speedcubing',
+  'science','space','trending','health'
 ];
 
 /* ── State ── */
