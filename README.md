@@ -1,7 +1,8 @@
 # News Aggregator
 
-A fully autonomous personalized news source. Totaly free. Runs on a $0 GCP Always Free VM + Groq API + Supabase + GitHub Pages. Scores and summarizes news articles with Groq's LLM, takes the best ones in a clean web UI, and keeps you in the loop on what matters.
+**A fully autonomous personalized news source. Totaly free. Runs on a $0 GCP Always Free VM + Groq API + Supabase + GitHub Pages. Scores and summarizes news articles with Groq's LLM, takes the best ones in a clean web UI, and keeps you in the loop on what matters.**
 
+**Firstly developed for personal use**
 **Live demo:** <https://oleksii-lasiichuk.github.io/news-aggregator/>
 
 ![n8n](https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=fff)
