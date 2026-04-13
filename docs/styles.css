@@ -107,6 +107,7 @@ main{max-width:1280px;margin:0 auto;padding:20px}
 .toggle-label input{accent-color:var(--accent);cursor:pointer}
 
 /* ── Modal ── */
+[hidden]{display:none !important}
 .modal{
   position:fixed;inset:0;background:rgba(0,0,0,.55);
   display:flex;align-items:center;justify-content:center;
