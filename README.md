@@ -4,25 +4,23 @@ A fully autonomous personalized news source. Totaly free. Runs on a $0 GCP Alway
 
 **Live demo:** <https://oleksii-lasiichuk.github.io/news-aggregator/>
 
+![n8n](https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=fff)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=fff)
+![Google Cloud](https://img.shields.io/badge/Google%20Cloud-4285F4?style=for-the-badge&logo=googlecloud&logoColor=fff)
+![Groq](https://img.shields.io/badge/Groq-F55036?style=for-the-badge&logo=groq&logoColor=fff)
+![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=fff)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=fff)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=fff)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=fff)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222?style=for-the-badge&logo=githubpages&logoColor=fff)
+![License: MIT](https://img.shields.io/badge/License-MIT-EAB308?style=for-the-badge)
+
 ![Feed](docs/screenshots/feed.png)
-
-
-## Stack
-
-| Layer | Tech | Why |
-| --- | --- | --- |
-| Orchestration | [n8n](https://n8n.io/) (self-hosted, Docker) | Visual DAG of scheduled HTTP/Code/DB steps |
-| Compute | Google Cloud e2-micro (Always Free) | 1 vCPU + 1 GB RAM, free forever in `us-central1`/`us-east1`/`us-west1` |
-| LLM | [Groq](https://groq.com/) — `llama-3.3-70b-versatile` | OpenAI-compatible, 14 400 req/day free |
-| Database + Auth | [Supabase](https://supabase.com/) | Postgres + REST + magic-link email, 500 MB free |
-| Frontend | Vanilla HTML/CSS/JS + Supabase JS SDK | No framework, no build step |
-| Host | GitHub Pages | Free static hosting from `/docs` |
-| Sources | Google News RSS topic queries | Single provider, never 404s |
 
 ---
 
 ## Architecture
-
 
 ![Architecture](docs/screenshots/architecture.png)
 
@@ -33,7 +31,3 @@ A fully autonomous personalized news source. Totaly free. Runs on a $0 GCP Alway
 ## License
 
 [MIT](LICENSE) — do whatever, no warranty.
-
-## Acknowledgements
-
-[n8n](https://n8n.io/) · [Groq](https://groq.com/) · [Supabase](https://supabase.com/) · [Google News RSS](https://news.google.com/)
