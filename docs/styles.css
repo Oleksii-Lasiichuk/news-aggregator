@@ -45,6 +45,7 @@ body{
   color:var(--text);
   line-height:1.55;
   min-height:100vh;
+  overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
   transition:background var(--trans),color var(--trans);
@@ -388,7 +389,7 @@ main.layout{
 
 /* ── Responsive ── */
 @media(max-width:980px){
-  main.layout{grid-template-columns:1fr}
+  main.layout{grid-template-columns:1fr;gap:18px}
   .sidebar{
     position:static;max-height:none;
     order:-1;padding:14px;
@@ -399,20 +400,65 @@ main.layout{
     overflow-x:auto;gap:8px;
     padding-bottom:4px;
     scrollbar-width:thin;
+    -webkit-overflow-scrolling:touch;
   }
   .sidebar-nav .chip{
     width:auto;white-space:nowrap;
-    border-radius:999px;padding:7px 14px;
+    border-radius:999px;padding:7px 14px;flex:0 0 auto;
   }
   .sidebar-nav .chip.active{box-shadow:none}
 }
+
+/* tablets / large phones */
 @media(max-width:640px){
-  .header-inner{padding:12px 16px}
+  :root{--header-h:56px}
+  .header-inner{padding:10px 14px;gap:8px}
   header h1{font-size:.95rem}
-  main.layout{padding:16px 14px 60px}
-  .grid{grid-template-columns:1fr;gap:14px}
-  .toolbar{flex-direction:column}
-  .toolbar input,.toolbar select{width:100%}
+  .logo-dot{width:10px;height:10px}
+  .header-right{gap:6px}
+  #lastUpdated{display:none}             /* save space on phones */
+  #userEmail{display:none !important}    /* keep Sign out, drop email text */
+  .btn-ghost{padding:6px 12px;font-size:.76rem}
+  .icon-btn{width:34px;height:34px}
+
+  main.layout{padding:14px 12px 48px;gap:14px}
+  .sidebar{padding:12px;border-radius:10px}
+
+  .grid{grid-template-columns:1fr;gap:12px}
+  .card{padding:15px;border-radius:10px}
+  .card-title{font-size:.98rem}
+  .card-summary{font-size:.82rem}
+
+  .toolbar{flex-direction:column;gap:8px}
+  .toolbar input,.toolbar select{width:100%;min-width:0}
+
+  .topic-picker{padding:14px;border-radius:10px}
+  .topic-picker-head h2{font-size:.9rem}
+  .custom-topic-row{flex-direction:column}
+  .custom-topic-row input{min-width:0;width:100%}
+  .custom-topic-row .btn-primary{width:100%}
+  .topic-picker-actions{flex-direction:column;align-items:stretch}
+  .topic-picker-actions .btn-primary{width:100%}
+  .topic-picker-actions .muted{text-align:center}
+
+  .modal{padding:14px}
+  .modal-card{padding:20px;border-radius:10px}
+  .modal-card h2{font-size:1rem}
+  .modal-actions{flex-direction:column-reverse}
+  .modal-actions .btn-primary,.modal-actions .btn-ghost{width:100%}
+
+  .toast{left:14px;right:14px;bottom:14px;text-align:center}
+}
+
+/* very narrow phones */
+@media(max-width:400px){
+  .header-inner{padding:9px 12px}
+  header h1{font-size:.88rem}
+  main.layout{padding:12px 10px 40px}
+  .card{padding:13px}
+  .card-title{font-size:.94rem}
+  .sidebar-nav .chip{padding:6px 12px;font-size:.78rem}
+  #signInBtn,#signOutBtn{padding:6px 10px;font-size:.72rem}
 }
 @media(prefers-reduced-motion:reduce){
   .skeleton::after,.logo-dot{animation:none}
