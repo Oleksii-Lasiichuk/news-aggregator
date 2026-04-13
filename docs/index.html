@@ -4,12 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My News Feed</title>
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
   <header>
     <div class="header-inner">
-      <h1>My News Feed</h1>
+      <div class="brand">
+        <span class="logo-dot" aria-hidden="true"></span>
+        <h1>My News Feed</h1>
+      </div>
       <div class="header-right">
         <span id="lastUpdated" class="muted">Loading...</span>
         <div id="authBar" class="auth-bar">
@@ -17,77 +23,86 @@
           <span id="userEmail" class="muted" hidden></span>
           <button id="signOutBtn" class="btn-ghost" hidden>Sign out</button>
         </div>
-        <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">☀</button>
+        <button id="themeToggle" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Topic picker (visible only when signed in) -->
-    <section id="topicPicker" class="topic-picker" hidden>
-      <div class="topic-picker-head">
-        <h2>My topics</h2>
-        <button id="topicPickerToggle" class="btn-ghost" aria-expanded="false">Edit</button>
+  <main class="layout">
+    <section class="content">
+      <!-- Topic picker (visible only when signed in) -->
+      <section id="topicPicker" class="topic-picker" hidden>
+        <div class="topic-picker-head">
+          <h2>My topics</h2>
+          <button id="topicPickerToggle" class="btn-ghost" aria-expanded="false">Edit</button>
+        </div>
+        <div id="topicPickerBody" class="topic-picker-body" hidden>
+          <p class="muted">Pick the topics you care about. Filter with the toggle below.</p>
+          <div id="presetChips" class="chip-row"></div>
+          <div class="custom-topic-row">
+            <input
+              type="text"
+              id="customTopicInput"
+              placeholder="Add a custom topic (e.g. drones)"
+              autocomplete="off"
+            />
+            <button id="addCustomTopicBtn" class="btn-primary">Add</button>
+          </div>
+          <div id="selectedTopics" class="chip-row selected-topics"></div>
+          <div class="topic-picker-actions">
+            <button id="savePrefsBtn" class="btn-primary">Save preferences</button>
+            <span id="prefsStatus" class="muted"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Search + Sort + "my topics only" toggle -->
+      <div class="toolbar">
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Search articles..."
+          autocomplete="off"
+        />
+        <select id="sortSelect">
+          <option value="date">Newest first</option>
+          <option value="score">Top rated</option>
+        </select>
+        <label id="myTopicsOnlyWrap" class="toggle-label" hidden>
+          <input type="checkbox" id="myTopicsOnly" />
+          <span>My topics only</span>
+        </label>
       </div>
-      <div id="topicPickerBody" class="topic-picker-body" hidden>
-        <p class="muted">Pick the topics you care about. Filter with the toggle below.</p>
-        <div id="presetChips" class="chip-row"></div>
-        <div class="custom-topic-row">
-          <input
-            type="text"
-            id="customTopicInput"
-            placeholder="Add a custom topic (e.g. drones)"
-            autocomplete="off"
-          />
-          <button id="addCustomTopicBtn" class="btn-primary">Add</button>
-        </div>
-        <div id="selectedTopics" class="chip-row selected-topics"></div>
-        <div class="topic-picker-actions">
-          <button id="savePrefsBtn" class="btn-primary">Save preferences</button>
-          <span id="prefsStatus" class="muted"></span>
-        </div>
+
+      <!-- Stats line -->
+      <p id="statusBar" class="muted status-bar">Loading articles…</p>
+
+      <!-- Cards -->
+      <div id="articlesGrid" class="grid">
+        <div class="card skeleton"></div>
+        <div class="card skeleton"></div>
+        <div class="card skeleton"></div>
+        <div class="card skeleton"></div>
+        <div class="card skeleton"></div>
+        <div class="card skeleton"></div>
+      </div>
+
+      <div id="loadMoreWrapper" style="display:none; text-align:center; margin-top:32px;">
+        <button id="loadMoreBtn" class="btn-primary">Load more</button>
       </div>
     </section>
 
-    <!-- Search + Sort + "my topics only" toggle -->
-    <div class="toolbar">
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Search articles..."
-        autocomplete="off"
-      />
-      <select id="sortSelect">
-        <option value="date">Newest first</option>
-        <option value="score">Top rated</option>
-      </select>
-      <label id="myTopicsOnlyWrap" class="toggle-label" hidden>
-        <input type="checkbox" id="myTopicsOnly" />
-        <span>My topics only</span>
-      </label>
-    </div>
-
-    <!-- Topic filter chips (from article data) -->
-    <div id="topicFilters" class="chip-row">
-      <button class="chip active" data-topic="all">All</button>
-    </div>
-
-    <!-- Stats line -->
-    <p id="statusBar" class="muted status-bar">Loading articles…</p>
-
-    <!-- Cards -->
-    <div id="articlesGrid" class="grid">
-      <div class="card skeleton"></div>
-      <div class="card skeleton"></div>
-      <div class="card skeleton"></div>
-      <div class="card skeleton"></div>
-      <div class="card skeleton"></div>
-      <div class="card skeleton"></div>
-    </div>
-
-    <div id="loadMoreWrapper" style="display:none; text-align:center; margin-top:32px;">
-      <button id="loadMoreBtn" class="btn-primary">Load more</button>
-    </div>
+    <aside class="sidebar" aria-label="Categories">
+      <h2 class="sidebar-title">Categories</h2>
+      <nav id="topicFilters" class="sidebar-nav">
+        <button class="chip active" data-topic="all">All</button>
+      </nav>
+    </aside>
   </main>
 
   <!-- Sign-in modal -->
@@ -113,6 +128,6 @@
     window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3bnh5enB3a3NwdWNhanNpZHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MzU4NTIsImV4cCI6MjA5MTUxMTg1Mn0.3ya2pA_PEvr8L9uei_jNdyDuvTQosZ09ybFglMl7CBo';
   </script>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
