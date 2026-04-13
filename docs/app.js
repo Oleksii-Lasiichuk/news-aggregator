@@ -3,6 +3,10 @@ const SUPABASE_URL      = window.SUPABASE_URL;
 const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Expose for DevTools debugging
+window.sb    = sb;
+window.state = null; // populated below
+
 const PRESET_TOPICS = [
   'ukraine','war','politics','tech','ai','programming',
   'speedcubing','running','sports','geography','world','science','health'
@@ -22,6 +26,7 @@ const state = {
   myTopicsOnly:  false,
   draftTopics:   [],
 };
+window.state = state;
 
 const PAGE_DAYS  = 7;
 const MIN_SCORE  = 6;
